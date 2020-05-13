@@ -1,0 +1,30 @@
+<div class="row mb-5 shadow-lg border border-light rounded p-3">
+  <div class="col-12">
+    <div class="w-100 d-flex justify-content-center mb-3 border-bottom">
+      <div class="text-center">
+        <p [ngClass]="post.title?.classes">{{post.title?.text}}</p>
+        <p [ngClass]="post.subTitle?.classes">{{post.subTitle?.text}}</p>
+      </div>
+    </div>
+    <div class="row mt-3">
+      <ng-container *ngIf="post.image?.src; else noimg">
+        <div class="col-12 col-md-4">
+          <img [src]="post.image?.src" [ngClass]="post.image?.classes">
+        </div>
+        <div class="col-12 col-md-8">
+          <p markdown [ngClass]="post.body?.classes" [data]="parseLines(post.body?.text)"></p>
+        </div>
+      </ng-container>
+      <ng-template #noimg>
+        <div class="col-12">
+          <p markdown [ngClass]="post.body?.classes" [data]="parseLines(post.body?.text)"></p>
+        </div>
+      </ng-template>
+    </div>
+    <div class="w-100 d-flex justify-content-center my-2 border-top" *ngIf="post.footer">
+      <div class="text-center">
+        <p [ngClass]="post.footer?.classes">{{post.footer?.text}}</p>
+      </div>
+    </div>
+  </div>
+</div>

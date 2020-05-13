@@ -1,0 +1,92 @@
+{
+  "title": "Blog Page Title",
+  "styles": {
+    "css": "bootstrap",
+    "markup": "markdown"
+  },
+  "scripts": {
+    "animation": "anime.js"
+  },
+  "posts": {
+    "page": {
+      "pageNumber": 2,
+      "countPerPage": 10
+    },
+    "items": [
+      {
+        "title": {
+          "text": "Post Title",
+          "classes": [
+            "",
+            ""
+          ]
+        },
+        "subTitle": {
+          "text": "Subtitle",
+          "classes": [
+            "",
+            ""
+          ]
+        },
+        "image": {
+          "src": "",
+          "classes": [
+            "",
+            ""
+          ],
+          "height": "200px",
+          "width": "auto"
+        },
+        "body": {
+          "text": "",
+          "classes": [
+            ""
+          ]
+        },
+        "footer": {
+          "text": "",
+          "classes": [
+            ""
+          ]
+        }
+      },
+      {
+        "title": {
+          "text": "Post Title",
+          "classes": [
+            "",
+            ""
+          ]
+        },
+        "subTitle": {
+          "text": "Subtitle",
+          "classes": [
+            "",
+            ""
+          ]
+        },
+        "image": {
+          "src": "",
+          "classes": [
+            "",
+            ""
+          ],
+          "height": "200px",
+          "width": "auto"
+        },
+        "body": {
+          "text": "",
+          "classes": [
+            ""
+          ]
+        },
+        "footer": {
+          "text": "",
+          "classes": [
+            ""
+          ]
+        }
+      }
+    ]
+  }
+}

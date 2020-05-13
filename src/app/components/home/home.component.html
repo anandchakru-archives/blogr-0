@@ -1,0 +1,19 @@
+<ng-container *ngIf="loaded; else loading">
+  <ng-container *ngIf="this.app.blogData?.posts?.items?.length;else noposts">
+    <ng-container *ngFor="let item of this.app.blogData?.posts?.items">
+      <rathnas-post [post]="item"></rathnas-post>
+    </ng-container>
+  </ng-container>
+  <ng-template #noposts>
+    <div class="jumbotron">
+      <h1 class="display-4">No posts found.</h1>
+      <p class="lead">Apologies, but we cound not find posts.</p>
+      <hr class="my-4">
+      <p>Click here start creating your own posts.</p>
+      <a class="btn btn-primary" [routerLink]="['/','secure','editor']" role="button">New Post</a>
+    </div>
+  </ng-template>
+</ng-container>
+<ng-template #loading>
+  Loading...
+</ng-template>

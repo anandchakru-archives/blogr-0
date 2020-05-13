@@ -1,0 +1,26 @@
+<div class="pt-5 mt-5 text-center">
+  <ng-container *ngIf="app.loaded; else loading">
+    <ng-container *ngIf="!app.user; else logout">
+      <h2 class="p-4">Login</h2>
+      <div class="btn-google" (click)="app.google()">
+        <span class="icon"></span>
+        <span class="buttonText">Google</span>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-12 col-md-6 small text-muted mt-5">
+          By continuing, you agree to our Terms of Service and acknowledge our Privacy Policy.
+        </div>
+      </div>
+    </ng-container>
+    <ng-template #logout>
+      <div class="py-3">
+        <h3>{{app.user.displayName}}</h3>
+        <small class="text-muted">{{app.user.email}}</small>
+      </div>
+      <button (click)="app.logout()" class="btn btn-warning">Logout</button>
+    </ng-template>
+  </ng-container>
+  <ng-template #loading>
+    Loading...
+  </ng-template>
+</div>
