@@ -29,13 +29,15 @@ export interface Scripts {
 export interface Posts {
   page: Page;
   items: Item[];
+  trash?: Item[];
 }
 export interface Page {
   pageNumber: number;
   countPerPage: number;
 }
 export interface Item {
-  _id: string;
+  _id?: string;
+  trash?: boolean;
   title: TextWithClasses;
   subTitle: TextWithClasses;
   image: ImageWithClasses;

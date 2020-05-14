@@ -1,4 +1,20 @@
 <div class="row mb-5 shadow-lg border border-light rounded p-3">
+  <nav class="navbar navbar-light w-100">
+    <span>&nbsp;</span>
+    <span>
+      <button class="btn text-danger" (click)="trashPost(post._id)" [disabled]="saving" title="Delete">
+        <ng-container *ngIf="saving; else savedBtn">
+          <i class="fas fa-spinner fa-spin mr-2"></i>
+        </ng-container>
+        <ng-template #savedBtn>
+          <i class="fas fa-trash"></i>
+        </ng-template>
+      </button>
+      <a class="btn text-primary" [routerLink]="['/','secure','editor', post._id]" title="Edit">
+        <i class="far fa-edit"></i>
+      </a>
+    </span>
+  </nav>
   <div class="col-12">
     <div class="w-100 d-flex justify-content-center mb-3 border-bottom">
       <div class="text-center">

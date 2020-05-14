@@ -1,3 +1,15 @@
+<nav class="navbar navbar-light">
+  <a class="btn text-primary" [routerLink]="['']" title="Home"><i class="fas fa-home"></i></a>
+  <ng-container *ngIf="app.user?.uid; else login">
+    <a class="btn text-primary" [routerLink]="['/','secure','editor']" title="New Post">
+      <i class="far fa-sticky-note"></i>
+    </a>
+    <a class="btn text-primary" [routerLink]="['/','signin']" title="User Profile"><i class="fas fa-user-cog"></i></a>
+  </ng-container>
+  <ng-template #login>
+    <a class="btn text-primary" [routerLink]="['/','signin']" title="Signin"><i class="fas fa-sign-in-alt"></i></a>
+  </ng-template>
+</nav>
 <div class="container my-5">
   <router-outlet></router-outlet>
 </div>

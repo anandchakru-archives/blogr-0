@@ -1,1 +1,109 @@
-<p>editor works!</p>
+<form class="w-100" [formGroup]="fg" novalidate *ngIf="fg">
+  <!-- Title -->
+  <div class="section shadow p-3 rounded my-5" formGroupName="title"
+    *ngIf="fg.get('title') && fg.get('title').get('text')">
+    <label class="text-muted small" for="title_text">Title</label>
+    <div class="input-group">
+      <input class="form-control" type="text" formControlName="text" id="title_text">
+    </div>
+    <button class="btn btn-sm btn-light my-2" data-toggle="collapse" data-target="#collapseCssTitle"
+      aria-expanded="false" aria-controls="collapseCssTitle">Classes</button>
+    <div class="collapse" id="collapseCssTitle">
+      <ng-container formGroupName="classes"
+        *ngFor="let class of fg.get('title').get('classes')['controls']; let ci=index;let first=first">
+        <div class="input-group my-1" [formGroupName]="ci">
+          <input class="form-control" type="text" formControlName="elem">
+          <div class="input-group-append pointer" (click)="deleteClass('title',class, ci)">
+            <span class="input-group-text"><i class="fas fa-trash text-danger"></i></span>
+          </div>
+        </div>
+      </ng-container>
+      <button class="btn btn-sm btn-info mt-3" (click)="addClass('title')">Add</button>
+    </div>
+  </div>
+
+  <!-- Sub Title -->
+  <div class="section shadow p-3 rounded my-5" formGroupName="subTitle"
+    *ngIf="fg.get('subTitle') && fg.get('subTitle').get('text')">
+    <label class="text-muted small" for="subTitle_text">Sub Title</label>
+    <div class="input-group">
+      <input class="form-control" type="text" formControlName="text" id="subTitle_text">
+    </div>
+    <button class="btn btn-sm btn-light my-2" data-toggle="collapse" data-target="#collapseCssSubTitle"
+      aria-expanded="false" aria-controls="collapseCssSubTitle">Classes</button>
+    <div class="collapse" id="collapseCssSubTitle">
+      <ng-container formGroupName="classes"
+        *ngFor="let class of fg.get('subTitle').get('classes')['controls']; let ci=index;let first=first">
+        <div class="input-group" [formGroupName]="ci">
+          <input class="form-control" type="text" formControlName="elem">
+          <div class="input-group-append pointer" (click)="deleteClass('subTitle',class, ci)">
+            <span class="input-group-text"><i class="fas fa-trash text-danger"></i></span>
+          </div>
+        </div>
+      </ng-container>
+      <button class="btn btn-sm btn-info mt-3" (click)="addClass('subTitle')">Add</button>
+    </div>
+  </div>
+
+  <!-- body -->
+  <div class="section shadow p-3 rounded my-5" formGroupName="body"
+    *ngIf="fg.get('body') && fg.get('body').get('text')">
+    <label class="text-muted small" for="body_text">Body</label>
+    <div class="input-group">
+      <textarea class="form-control" formControlName="text" rows="10" id="body_text"></textarea>
+    </div>
+    <button class="btn btn-sm btn-light my-2" data-toggle="collapse" data-target="#collapseCssBody"
+      aria-expanded="false" aria-controls="collapseCssBody">Classes</button>
+    <div class="collapse" id="collapseCssBody">
+      <ng-container formGroupName="classes"
+        *ngFor="let class of fg.get('body').get('classes')['controls']; let ci=index;let first=first">
+        <div class="input-group" [formGroupName]="ci">
+          <input class="form-control" type="text" formControlName="elem">
+          <div class="input-group-append pointer" (click)="deleteClass('body',class, ci)">
+            <span class="input-group-text"><i class="fas fa-trash text-danger"></i></span>
+          </div>
+        </div>
+      </ng-container>
+      <button class="btn btn-sm btn-info mt-3" (click)="addClass('body')">Add</button>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="section shadow p-3 rounded my-5" formGroupName="footer"
+    *ngIf="fg.get('footer') && fg.get('footer').get('text')">
+    <label class="text-muted small" for="footer_text">Footer</label>
+    <div class="input-group">
+      <input class="form-control" type="text" formControlName="text" id="footer_text">
+    </div>
+    <button class="btn btn-sm btn-light my-2" data-toggle="collapse" data-target="#collapseCssFooter"
+      aria-expanded="false" aria-controls="collapseCssFooter">Classes</button>
+    <div class="collapse" id="collapseCssFooter">
+      <ng-container formGroupName="classes"
+        *ngFor="let class of fg.get('footer').get('classes')['controls']; let ci=index;let first=first">
+        <div class="input-group" [formGroupName]="ci">
+          <input class="form-control" type="text" formControlName="elem">
+          <div class="input-group-append pointer" (click)="deleteClass('footer',class, ci)">
+            <span class="input-group-text"><i class="fas fa-trash text-danger"></i></span>
+          </div>
+        </div>
+      </ng-container>
+      <button class="btn btn-sm btn-info mt-3" (click)="addClass('footer')">Add</button>
+    </div>
+  </div>
+</form>
+<div class="row d-flex justify-content-between p-2">
+  <button class="btn btn-sm btn-secondary" (click)="discardDetails()">Discard</button>
+  <button class="btn btn-sm btn-success" (click)="saveDetails()" [disabled]="saving"><i
+      class="fas fa-spinner fa-spin mr-2" [hidden]="!saving"></i>
+    <ng-container *ngIf="pid==='new';else updateBtn">
+      Add
+    </ng-container>
+    <ng-template #updateBtn>
+      Update
+    </ng-template>
+  </button>
+</div>
+
+<!-- <input class="form-control" type="text" formControlName="text"> -->
+<!-- <ng-container *ngTemplateOutlet="editPencil;context:{sectionProp: 'courses'}"></ng-container> -->
+<!-- <ng-template #cssClasses let-section="sectionProp"></ng-template> -->

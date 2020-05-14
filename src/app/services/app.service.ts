@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as firebase from 'firebase';
-import { Action, DocumentSnapshot, DocumentChangeAction, AngularFirestore } from '@angular/fire/firestore';
+import { Action, DocumentSnapshot, DocumentChangeAction, AngularFirestore, DocumentReference } from '@angular/fire/firestore';
 import { BlogData, User, Item, BlogrConstants } from '../util/blogr.model';
 import { takeUntil, map } from 'rxjs/operators';
 import { Subject, ReplaySubject } from 'rxjs';
@@ -39,6 +39,28 @@ export class AppService {
       this.userSub.next(undefined);
     });
   }
+  readPost(pid: string, cb: (post) => void) {
+    this.fs.doc<Item>(`users/${this.user.uid}/posts/${pid}`).snapshotChanges().pipe(takeUntil(this.uns))
+      .subscribe((docSnap: Action<DocumentSnapshot<Item>>) => {
+        if (cb) {
+          cb(docSnap.payload.data());
+        }
+      });
+  }
+  savePost(pid: string, post: Item, cb: (pid) => void) {
+    const timestamp = Date.now();
+    if (pid === 'new') {
+      this.fs.collection(`users/${this.user.uid}/posts`).add({ ...post, created: timestamp, modified: timestamp })
+        .then((docRef: DocumentReference) => { if (cb) { cb(docRef.id); } });
+    } else {
+      this.fs.collection(`users/${this.user.uid}/posts`).doc(pid).set({ ...post, modified: timestamp }, { merge: true }).then(() => {
+        if (cb) {
+          cb(pid);
+        }
+      });
+    }
+  }
+
   public readPosts(uid: string, cb: () => void) {
     this.blogData = {
       title: '',
@@ -57,23 +79,32 @@ export class AppService {
         items: []
       }
     };
-    this.fs.collection<Item>(`users/${uid}/posts`).snapshotChanges().subscribe((dcas: DocumentChangeAction<Item>[]) => {
-      this.blogData.posts.items = [];
-      dcas.forEach((dca: DocumentChangeAction<Item>) => {
-        this.blogData.posts.items.push({
-          ...dca.payload.doc.data(),
-          _id: dca.payload.doc.id
+    this.fs.collection<Item>(`users/${uid}/posts`, ref => ref.orderBy('created', 'desc').limit(10))
+      .snapshotChanges().subscribe((dcas: DocumentChangeAction<Item>[]) => {
+        this.blogData.posts.items = [];
+        this.blogData.posts.trash = [];
+        dcas.forEach((dca: DocumentChangeAction<Item>) => {
+          if (dca.payload.doc.data().trash) {
+            this.blogData.posts.trash.push({
+              ...dca.payload.doc.data(),
+              _id: dca.payload.doc.id
+            });
+          } else {
+            this.blogData.posts.items.push({
+              ...dca.payload.doc.data(),
+              _id: dca.payload.doc.id
+            });
+          }
         });
+        if (cb) {
+          cb();
+        }
+      }, (error) => {
+        console.log(`Unable to fetch data for ${uid}`);
+        if (cb) {
+          cb();
+        }
       });
-      if (cb) {
-        cb();
-      }
-    }, (error) => {
-      console.log(`Unable to fetch data for ${uid}`);
-      if (cb) {
-        cb();
-      }
-    });
   }
   public setRedirect(next: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     const qIndx = state.url.indexOf('?');

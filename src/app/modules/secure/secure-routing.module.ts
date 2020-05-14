@@ -6,6 +6,7 @@ import { EditorComponent } from './components/editor/editor.component';
 const routes: Routes = [
   { path: '', redirectTo: '/editor', pathMatch: 'full' },
   { path: 'editor', component: EditorComponent },
+  { path: 'editor/:pid', component: EditorComponent },
 ];
 
 @NgModule({
