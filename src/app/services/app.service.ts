@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
-import * as firebase from 'firebase';
+import * as firebase from 'firebase/app';
+import 'firebase/firestore';
+import 'firebase/auth';
 import { Action, DocumentSnapshot, DocumentChangeAction, AngularFirestore, DocumentReference } from '@angular/fire/firestore';
 import { BlogData, User, Item, BlogrConstants } from '../util/blogr.model';
 import { takeUntil, map } from 'rxjs/operators';
